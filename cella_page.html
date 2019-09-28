@@ -1,0 +1,46 @@
+<!doctype html><html><head>
+<title>Langton's Ant, Extended</title></head>
+<h1 id="h1">Langton's Ant, Extended</h1>
+<body>
+Speed <select id="delay">
+  <option value="1">1</option>
+  <option value="2" selected="selected">10</option>
+  <option value="3">500</option>
+</select><br>
+Pattern <select id="test">
+  <option value="1" selected="selected">LLRR</option>
+  <option value="2">RRLL</option>
+</select><br>
+<p id="passes"</p>Total passes: 0&nbsp;</p><br>
+<canvas id="canvas" width="410" height="410"></canvas>
+<!--Grid Size: <input id="size" type ="number" value="41"><br>-->
+<script src="./cella.js"></script>
+<script>
+var ctx = document.getElementById("canvas").getContext("2d")
+var minor = 10;
+//main(ctx, minor)
+var delay = 10; // in milliseconds
+var e = document.getElementById("delay");
+e.addEventListener("change",speedChange)
+function speedChange()
+{
+  delay = Number(e.options[e.selectedIndex].text)
+  console.log(e.options[e.selectedIndex].text);
+}
+
+async function _main()
+{
+    var world = new World(ctx,minor)
+    var ant = new Ant(ctx,minor,world)
+    e.onchange = speedChange();
+    for (var i = 0; i < 90000; i++)
+    {
+      ant.next();
+      document.getElementById("passes").innerHTML = "Total passes: " + i;
+      await sleep(delay);
+    }
+}
+_main();
+</script>
+</body>
+</html>
